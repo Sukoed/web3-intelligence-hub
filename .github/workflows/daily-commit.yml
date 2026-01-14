@@ -1,0 +1,22 @@
+name: Daily Activity Farmer
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # Запуск каждый день в 9 утра
+  workflow_dispatch:   # Позволяет запустить вручную кнопкой
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update Activity Log
+        run: |
+          echo "Last activity: $(date)" > activity_log.txt
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add activity_log.txt
+          git commit -m "chore: daily builder activity update [skip ci]"
+          git push
