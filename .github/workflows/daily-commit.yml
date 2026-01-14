@@ -2,8 +2,8 @@ name: Daily Activity Farmer
 
 on:
   schedule:
-    - cron: '0 9 * * *' # Запуск каждый день в 9 утра
-  workflow_dispatch:   # Позволяет запустить вручную кнопкой
+    - cron: '0 9 * * *' # Runs every day at 9 AM
+  workflow_dispatch:   # Allows manual trigger via button
 
 jobs:
   build:
