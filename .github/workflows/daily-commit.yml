@@ -2,14 +2,17 @@ name: Daily Activity Farmer
 
 on:
   schedule:
-    - cron: '0 9 * * *' # Runs every day at 9 AM
-  workflow_dispatch:   # Allows manual trigger via button
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Granting the bot write access to the repository
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Update Activity Log
         run: |
           echo "Last activity: $(date)" > activity_log.txt
@@ -18,5 +21,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add activity_log.txt
-          git commit -m "chore: daily builder activity update [skip ci]"
+          git commit -m "chore: daily builder activity update"
           git push
