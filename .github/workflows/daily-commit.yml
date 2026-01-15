@@ -11,14 +11,19 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
       - name: Update Activity Log
         run: |
-          date >> daily_log.txt
+          echo "Activity log updated at $(date)" >> daily_log.txt
+
       - name: Commit and Push
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add daily_log.txt
-          git commit -m "daily activity update" || echo "No changes to commit"
+          git commit -m "chore: daily activity update" || exit 0
           git push
