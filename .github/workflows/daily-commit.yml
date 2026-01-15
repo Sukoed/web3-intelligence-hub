@@ -8,18 +8,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Granting the bot write access to the repository
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Update Activity Log
         run: |
-          echo "Last activity: $(date)" > activity_log.txt
-      - name: Commit changes
+          date >> daily_log.txt
+      - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add activity_log.txt
-          git commit -m "chore: daily builder activity update"
+          git add daily_log.txt
+          git commit -m "daily activity update" || echo "No changes to commit"
           git push
